@@ -63,6 +63,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    orders         Order[]
 }
 
 model VerificationToken {
@@ -71,4 +72,38 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Product {
+    id                      String  @id @default(cuid())
+    name                    String
+    priceInYen              Int
+    filePath                String
+    imagePath               String
+    decription              String
+    createdAt               DateTime       @default(now())
+    updatedAt               DateTime       @updatedAt()
+    orders         Order[]
+    downloadVerfications DownloadVerfication[]
+
+}
+
+model Order {
+    id String  @id @default(cuid())
+    pricePaidInYen  Int
+    createdAt               DateTime       @default(now())
+    updatedAt               DateTime       @updatedAt()
+
+    userId  String
+    productId String
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+}
+
+model DownloadVerfication {
+    id String  @id @default(cuid())
+    expiresAt DateTime
+    productId String
+    createdAt               DateTime       @default(now())
+    product Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
 }
