@@ -1,4 +1,4 @@
-import PDFList from "../_components/PDFList";
+import PDFList from "../_components/PDFlist";
 
 const pdfs = [
   { id: "1", title: "Free PDF", url: "/pdfs/sample1.pdf" },
